@@ -5,17 +5,22 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Todo {
+public class todo {
 
   public static void main(String[] args) throws IOException {
 
-    if (args[0].equals("-l")){
+    if (args[0].equals("-l")) {
       int count = 1;
-      for (String arg: todoList()) {
+      for (String arg : todoList()) {
         System.out.println(count + " - " + arg);
         count++;
       }
     }
+
+    if (args[0].equals("-l") && todoList().isEmpty() ){
+      System.out.println("No todos for today! :)");
+    }
+
   }
 
   public static void printUsage() {
@@ -29,15 +34,12 @@ public class Todo {
     System.out.println(list);
   }
 
-  public static List<String> todoList(){
+  public static List<String> todoList() {
     Path path = Paths.get("src/todo-list.txt");
     List<String> lines = new ArrayList<>();
-    try{
+    try {
       lines = Files.readAllLines(path);
-      for (String line: lines) {
-        System.out.println(line);
-      }
-    }catch (IOException e){
+    } catch (IOException e) {
       System.out.println("File not found!");
     }
     return lines;
