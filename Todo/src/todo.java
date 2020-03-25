@@ -17,12 +17,22 @@ public class todo {
       }
     }
 
-    if (args[0].equals("-l") && todoList().isEmpty() ){
+    if (args[0].equals("-l") && todoList().isEmpty()) {
       System.out.println("No todos for today! :)");
     }
 
+   /* if (args[0].equals("-a") && !args[1].isEmpty()) {
+      todoList().add(args[1]);
+    }*/
+
+    if (args[0].equals("-a") && !args[1].isEmpty()) {
+      writeFile(args[1]);
+    }
+
+
   }
 
+  //prints the usage
   public static void printUsage() {
     String list = "Command line Todo application\n";
     list = list.concat("=============================\n");
@@ -34,6 +44,7 @@ public class todo {
     System.out.println(list);
   }
 
+  //reads file
   public static List<String> todoList() {
     Path path = Paths.get("src/todo-list.txt");
     List<String> lines = new ArrayList<>();
@@ -43,6 +54,15 @@ public class todo {
       System.out.println("File not found!");
     }
     return lines;
+  }
+
+  public static void writeFile(String arg){
+    try{
+      todoList();
+      todoList().add(arg);
+    }catch (Exception e){
+      System.out.println("Something went wrong!");
+    }
   }
 
 }
