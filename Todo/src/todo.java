@@ -9,6 +9,8 @@ public class todo {
 
   public static void main(String[] args) throws IOException {
 
+
+
     if (args[0].equals("-l")) {
       int count = 1;
       for (String arg : todoList()) {
@@ -21,12 +23,17 @@ public class todo {
       System.out.println("No todos for today! :)");
     }
 
-   /* if (args[0].equals("-a") && !args[1].isEmpty()) {
-      todoList().add(args[1]);
-    }*/
 
     if (args[0].equals("-a") && !args[1].isEmpty()) {
       writeFile(args[1]);
+    }
+
+    try {
+      if (args[0].equals("-a") && args[1].isBlank()) {
+        System.out.println("Unable to add: no task provided");
+      }
+    }catch (Exception e){
+      System.out.println("Exception: Unable to add: no task provided");
     }
 
 
@@ -44,25 +51,33 @@ public class todo {
     System.out.println(list);
   }
 
+  //path of the file
+  public static Path path() {
+    Path path = Paths.get("src/todo-list.txt");
+    return path;
+  }
+
   //reads file
   public static List<String> todoList() {
-    Path path = Paths.get("src/todo-list.txt");
+    //Path path = Paths.get("src/todo-list.txt");
     List<String> lines = new ArrayList<>();
     try {
-      lines = Files.readAllLines(path);
+      lines = Files.readAllLines(path());
     } catch (IOException e) {
       System.out.println("File not found!");
     }
     return lines;
   }
 
-  public static void writeFile(String arg){
-    try{
-      todoList();
+  //write the file
+  public static void writeFile(String arg) {
+    try {
+      List<String> word = todoList();
       todoList().add(arg);
-    }catch (Exception e){
+      word.add(arg);
+      Files.write(path(), word);
+    } catch (IOException e) {
       System.out.println("Something went wrong!");
     }
   }
-
 }
