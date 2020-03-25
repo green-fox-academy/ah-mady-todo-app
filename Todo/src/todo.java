@@ -9,8 +9,6 @@ public class todo {
 
   public static void main(String[] args) throws IOException {
 
-
-
     if (args[0].equals("-l")) {
       int count = 1;
       for (String arg : todoList()) {
@@ -24,19 +22,17 @@ public class todo {
     }
 
 
-    if (args[0].equals("-a") && !args[1].isEmpty()) {
+    if (args[0].equals("-a") && !(args[1].length() ==0)) {
       writeFile(args[1]);
     }
 
     try {
-      if (args[0].equals("-a") && args[1].isBlank()) {
+      if (args[0].equals("-a") && args[1].length() ==1) {
         System.out.println("Unable to add: no task provided");
       }
     }catch (Exception e){
       System.out.println("Exception: Unable to add: no task provided");
     }
-
-
   }
 
   //prints the usage
