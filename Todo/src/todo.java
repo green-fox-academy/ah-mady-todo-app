@@ -9,6 +9,15 @@ public class todo {
 
   public static void main(String[] args) throws IOException {
 
+    try {
+      if (args.length < 1) {
+        printUsage();
+      }
+    } catch (ArrayIndexOutOfBoundsException e){
+     // e.printStackTrace();
+      System.out.println(" ");
+    }
+
     if (args[0].equals("-l")) {
       int count = 1;
       for (String arg : todoList()) {
@@ -22,17 +31,29 @@ public class todo {
     }
 
 
-    if (args[0].equals("-a") && !(args[1].length() ==0)) {
+    if (args[0].equals("-a") && args.length == 2) {
       writeFile(args[1]);
     }
 
     try {
-      if (args[0].equals("-a") && args[1].length() ==1) {
+      if (args[0].equals("-a") && args.length == 1) {
         System.out.println("Unable to add: no task provided");
       }
-    }catch (Exception e){
+    } catch (Exception e) {
       System.out.println("Exception: Unable to add: no task provided");
     }
+
+
+    if (args[0].equals("-r") && args.length == 2) {
+      int argIndex = Integer.parseInt(args[1]);
+      removeTask(argIndex);
+    }
+
+    if (args[0].equals("-r") && args.length == 1){
+      System.out.println("Unable to remove: no index provided");
+    }
+
+
   }
 
   //prints the usage
@@ -55,7 +76,6 @@ public class todo {
 
   //reads file
   public static List<String> todoList() {
-    //Path path = Paths.get("src/todo-list.txt");
     List<String> lines = new ArrayList<>();
     try {
       lines = Files.readAllLines(path());
@@ -74,6 +94,26 @@ public class todo {
       Files.write(path(), word);
     } catch (IOException e) {
       System.out.println("Something went wrong!");
+    }
+  }
+
+  public static void removeTask(int arg) {
+    List<String> task = todoList();
+    int count = 0;
+    List <String> lines = todoList();
+    for (String line: lines) {
+      count ++;
+    }
+    if (arg <= count){
+      task.remove(arg);
+    }else{
+      System.out.println("Unable to remove: index is out of bound");
+    }
+    try {
+      Files.write(path(), task);
+    } catch (IOException e) {
+      e.printStackTrace();
+      System.out.println("couldn't remove");
     }
   }
 }
