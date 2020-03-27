@@ -11,6 +11,4 @@ public class PrintHandler {
     System.out.println(list);
   }
 
-  public 
-
 }
